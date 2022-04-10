@@ -17,7 +17,7 @@ clientPrivKey=`wg genkey`
 clientPubKey=`echo ${clientPrivKey} | wg pubkey`
 
 echo "Used IPs:"
-grep AllowedIPs "${SERVER_CONFIG}"
+grep "^AllowedIPs" "${SERVER_CONFIG}"
 read -p "Enter client IP you want to assign:" clientIP
 
 cat "${SCRIPT_DIR}/wg0-client.template" \
