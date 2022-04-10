@@ -1,0 +1,3 @@
+[Peer] # :PEER_NAME:
+PublicKey = :PEER_KEY:
+AllowedIPs = :PEER_IP:/32
