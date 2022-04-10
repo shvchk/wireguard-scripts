@@ -1,9 +1,12 @@
-#!/bin/bash
+#! /usr/bin/env bash
 
-if [ $# -eq 0 ]
-then
-	echo "must have peer id as arg: remove-peer.sh asdf123="
-else
-	sudo wg set wg0 peer $1 remove
-	sudo wg show
-fi
+set -euo pipefail
+IFS=$'\n\t'
+
+. "$(dirname "$0")/conf.sh"
+
+echo "Current clients:"
+sed -n "s|^\[Peer\] # \(.*\)|\1|p" "${SERVER_CONFIG}"
+read -p "Client name to remove: " clientName
+
+sed -i "" -e "s|^\[Peer\] # {$clientName}$|,+4 d" "${SERVER_CONFIG}"
