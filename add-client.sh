@@ -7,13 +7,13 @@ IFS=$'\n\t'
 
 mkdir -p "${CLIENTS_DIR}"
 
-read -p "Client name:" clientName
+read -p "Client name: " clientName
 clientPrivKey=`wg genkey`
 clientPubKey=`echo ${clientPrivKey} | wg pubkey`
 
 echo "Used IPs:"
 grep "^AllowedIPs" "${SERVER_CONFIG}"
-read -p "Enter client IP you want to assign:" clientIP
+read -p "Enter client IP you want to assign: " clientIP
 
 cat "$(dirname "$0")/client.template" \
 | sed -e "s|:CLIENT_IP:|$clientIP|" \
