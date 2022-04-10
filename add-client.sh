@@ -1,4 +1,7 @@
-#!/bin/bash
+#! /usr/bin/env bash
+
+set -euo pipefail
+IFS=$'\n\t'
 
 WG_INTERFACE="wg0"
 SERVER_CONFIG="/etc/wireguard/${WG_INTERFACE}.conf"
