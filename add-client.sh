@@ -3,12 +3,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-WG_INTERFACE="wg0"
-SERVER_CONFIG="/etc/wireguard/${WG_INTERFACE}.conf"
-SERVER_PUB_KEY=`cat /etc/wireguard/public.key`
-
-SCRIPT_DIR=`dirname "$0"`
-CLIENTS_DIR="${SCRIPT_DIR}/clients"
+. "$(dirname "$0")/conf.sh"
 
 mkdir -p "${CLIENTS_DIR}"
 
@@ -20,14 +15,15 @@ echo "Used IPs:"
 grep "^AllowedIPs" "${SERVER_CONFIG}"
 read -p "Enter client IP you want to assign:" clientIP
 
-cat "${SCRIPT_DIR}/wg0-client.template" \
+cat "${SCRIPT_DIR}/client.template" \
 | sed -e "s|:CLIENT_IP:|$clientIP|" \
 | sed -e "s|:CLIENT_KEY:|$clientPrivKey|" \
-| sed -e "s|:SERVER_PUB_KEY:|$SERVER_PUB_KEY|" > "${CLIENTS_DIR}/${clientName}.conf"
+| sed -e "s|:SERVER_PUB_KEY:|$SERVER_PUB_KEY|" \
+| sed -e "s|:SERVER_ADDR:|$SERVER_ADDR|" > "${CLIENTS_DIR}/${clientName}.conf"
 
 echo >> "${SERVER_CONFIG}"
 
-cat "${SCRIPT_DIR}/wg0-peer.template" \
+cat "${SCRIPT_DIR}/peer.template" \
 | sed -e "s|:PEER_NAME:|$clientName|" \
 | sed -e "s|:PEER_KEY:|$clientPubKey|" \
 | sed -e "s|:PEER_IP:|$clientIP|" >> "${SERVER_CONFIG}"

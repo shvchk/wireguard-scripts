@@ -4,5 +4,5 @@ PrivateKey = :CLIENT_KEY:
 
 [Peer]
 PublicKey = :SERVER_PUB_KEY:
-Endpoint = 
+Endpoint = :SERVER_ADDR:
 AllowedIPs = 0.0.0.0/0
