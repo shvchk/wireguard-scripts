@@ -20,14 +20,14 @@ echo "Used IPs:"
 grep AllowedIPs "${SERVER_CONFIG}"
 read -p "Enter client IP you want to assign:" clientIP
 
-cat wg0-client.template \
+cat "${SCRIPT_DIR}/wg0-client.template" \
 | sed -e "s|:CLIENT_IP:|$clientIP|" \
 | sed -e "s|:CLIENT_KEY:|$clientPrivKey|" \
 | sed -e "s|:SERVER_PUB_KEY:|$SERVER_PUB_KEY|" > "${CLIENTS_DIR}/${clientName}.conf"
 
 echo >> "${SERVER_CONFIG}"
 
-cat wg0-peer.template \
+cat "${SCRIPT_DIR}/wg0-peer.template" \
 | sed -e "s|:PEER_NAME:|$clientName|" \
 | sed -e "s|:PEER_KEY:|$clientPubKey|" \
 | sed -e "s|:PEER_IP:|$clientIP|" >> "${SERVER_CONFIG}"
