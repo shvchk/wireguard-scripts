@@ -15,7 +15,7 @@ echo "Used IPs:"
 grep "^AllowedIPs" "${SERVER_CONFIG}"
 read -p "Enter client IP you want to assign:" clientIP
 
-cat "${SCRIPT_DIR}/client.template" \
+cat "$(dirname "$0")/client.template" \
 | sed -e "s|:CLIENT_IP:|$clientIP|" \
 | sed -e "s|:CLIENT_KEY:|$clientPrivKey|" \
 | sed -e "s|:SERVER_PUB_KEY:|$SERVER_PUB_KEY|" \
@@ -23,7 +23,7 @@ cat "${SCRIPT_DIR}/client.template" \
 
 echo >> "${SERVER_CONFIG}"
 
-cat "${SCRIPT_DIR}/peer.template" \
+cat "$(dirname "$0")/peer.template" \
 | sed -e "s|:PEER_NAME:|$clientName|" \
 | sed -e "s|:PEER_KEY:|$clientPubKey|" \
 | sed -e "s|:PEER_IP:|$clientIP|" >> "${SERVER_CONFIG}"
